@@ -1,0 +1,78 @@
+<!DOCTYPE html> {% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'user/css/cart.css' %}">
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-expand-md fixed-top navbar-dark bg-dark border-bottom shadow-sm p-0">
+        <a href="http://localhost:8000" class="navbar-brand col-md-2 mr-0">E-Commerce</a>
+        <input type="text" name="item_search" id="item_search" class="ml-1 form-control form-control-dark" placeholder="Search...">
+        <ul class="navbar-nav px-3">
+            <li class="nav-item">
+                <a href="" class="nav-link">History</a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link">Account</a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link">Orders</a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link mr-5">Cart</a>
+            </li>
+            <li class="nav-item text-nowrap">
+                <a href="" class="nav-link">Logout</a>
+            </li>
+        </ul>
+    </nav>
+        
+    
+    <div class="container" id="main-content">
+
+        <div class="row">
+
+            <div class="col-12">
+
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Image</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    {% for product in cart.products.all %}
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <img src="{{ product.images.all.0.image.url }}" alt="" class="img-responsive">
+                                </td>
+                                <td>{{ product.name }}</td>
+                                <td>{{ product.short_description }}</td>
+                                <td>${{ product.price }}</td>
+                            </tr>
+                        </tbody>
+                    {% endfor %}
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

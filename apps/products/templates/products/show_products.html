@@ -1,0 +1,153 @@
+<!DOCTYPE html>{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Products</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'products/css/show_products_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'products/css/product_slider.css' %}">
+
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg navbar-expand-md fixed-top navbar-dark bg-dark border-bottom shadow-sm p-0">
+        <a href="http://localhost:8000" class="navbar-brand col-md-2 mr-0">E-Commerce</a>
+        <input type="text" name="item_search" id="item_search" class="ml-1 form-control form-control-dark" placeholder="Search...">
+        <datalist id="search_products"></datalist>
+        <ul class="navbar-nav px-3">
+            {% if request.session.user_id %}
+                <li class="nav-item">
+                    <a href="" class="nav-link">History</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">Account</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost:8000/cart" class="nav-link">Cart</a>
+                </li>
+            {% endif %}
+            {% if not request.session.user_id %}
+                <li class="nav-item">
+                    <a href="http://localhost:8000/login" class="nav-link ml-5">Login</a>
+                </li>
+                <li class="nav-item text-nowrap">
+                    <a href="http://localhost:8000/register" class="nav-link">Sign Up</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a href="http://localhost:8000/logout" class="nav-link ml-5">Logout</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="ml-2 nav flex-column">
+                        <li class="nav-item mr-1 mb-4">
+                            Categories
+                            <select name="category_filter" id="category_filter" class="form-control">
+                                <option value="0">All</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </li>
+                        <li class="nav-item">
+                            Prices
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Min: $</span>
+                                </div>
+                                <input type="number" name="price_min" id="price_min" class="form-control" value="0">
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Max: $</span>
+                                </div>
+                                <input type="number" name="price_max" id="price_max" class="form-control">
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Ratings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://localhost:8000/products/create">Create Product</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="col-md-9 col-lg-10 px-4 offset-2 my-5" id="products">
+                {% for key, val in data.items %}
+                    <h2>{{ key }}</h2>
+                    <div id="{{ key|cut:' '|lower }}-carousel" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            {% for x in val %}
+                                <li data-target="#{{ key|cut:' '|lower }}-carousel" data-slide-to="{{forloop.counter0}}" class="{% if forloop.first %}active{% endif %}"></li>
+                            {% endfor %}
+                        </ol>
+                        <div class="carousel-inner">
+                            {% for p_row in val %}
+                                <div class="item carousel-item{% if forloop.first %} active{% endif %}">
+                                    <div class="row">
+                                        {% for product in p_row %}
+                                            <div class="col-sm-3">
+                                                <div class="thumb-wrapper">
+                                                    <div class="img-box">
+                                                        <img src="https://via.placeholder.com/150" alt="Placeholder image">
+                                                    </div>
+                                                    <div class="thumb-content">
+                                                        <h4>{{ product.name }}</h4>
+                                                        <p class="item-price">${{ product.price }}</p>
+                                                        <div class="star-rating">
+                                                            <div class="list-inline">
+                                                                <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                                <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                                <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                                <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                                <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                            </div>
+                                                        </div>
+                                                        <a href="http://localhost:8000/add_to_cart/{{ product.id }}" class="btn btn-primary">Add to Cart</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a class="carousel-control left carousel-control-prev" href="#{{ key|cut:' '|lower }}-carousel" data-slide="prev">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a class="carousel-control right carousel-control-next" href="#{{ key|cut:' '|lower }}-carousel" data-slide="next">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+    <script src="{% static 'products/js/filter.js' %}"></script>
+</body>
+</html>
