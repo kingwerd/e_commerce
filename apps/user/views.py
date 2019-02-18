@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from .models import User, Cart
+from ..products.models import Product
 
 import bcrypt
 
@@ -58,7 +59,12 @@ def add_to_cart(request, id):
     if request.method == "GET":
         if 'user_id' in request.session:
             user = User.objects.get(id=request.session['user_id'])
+            product = Product.objects.get(id=id)
             cart = Cart.objects.get(user__id=user.id)
+            cart.products.add(product)
+            product.carts.add(cart)
+            product.save()
+            cart.save()
             context = {
                 'user': user,
                 'cart': cart
