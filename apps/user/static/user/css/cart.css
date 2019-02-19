@@ -1,3 +1,7 @@
+body {
+    overscroll-behavior: none;
+}
+
 .navbar-brand {
     padding-top: .75rem;
     padding-bottom: .75rem;
@@ -25,6 +29,8 @@
 
 #main-content {
     margin-top: 7vh;
+    height: 90vh;
+    overflow-y: auto;
 }
 
 .table-image {

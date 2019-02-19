@@ -17,40 +17,44 @@
     <link rel="stylesheet" href="{% static 'products/css/product_slider.css' %}">
 
 </head>
-<body>
+<body style="background-color:#EAEDED;">
     
     <nav class="navbar navbar-expand-lg navbar-expand-md fixed-top navbar-dark bg-dark border-bottom shadow-sm p-0">
         <a href="http://localhost:8000" class="navbar-brand col-md-2 mr-0">E-Commerce</a>
-        <input type="text" name="item_search" id="item_search" class="ml-1 form-control form-control-dark" placeholder="Search...">
-        <datalist id="search_products"></datalist>
-        <ul class="navbar-nav px-3">
-            {% if request.session.user_id %}
-                <li class="nav-item">
-                    <a href="" class="nav-link">History</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Account</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Orders</a>
-                </li>
-                <li class="nav-item">
-                    <a href="http://localhost:8000/cart" class="nav-link">Cart</a>
-                </li>
-            {% endif %}
-            {% if not request.session.user_id %}
-                <li class="nav-item">
-                    <a href="http://localhost:8000/login" class="nav-link ml-5">Login</a>
-                </li>
-                <li class="nav-item text-nowrap">
-                    <a href="http://localhost:8000/register" class="nav-link">Sign Up</a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a href="http://localhost:8000/logout" class="nav-link ml-5">Logout</a>
-                </li>
-            {% endif %}
-        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ecommerce-navbar-content" aria-controls="ecommerce-navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="ecommerce-navbar-content">
+            <input type="text" name="item_search" id="item_search" class="ml-1 form-control form-control-dark" placeholder="Search...">
+            <ul class="navbar-nav px-3">
+                {% if request.session.user_id %}
+                    <li class="nav-item">
+                        <a href="" class="nav-link">History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link">Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="http://localhost:8000/cart" class="nav-link">Cart</a>
+                    </li>
+                {% endif %}
+                {% if not request.session.user_id %}
+                    <li class="nav-item">
+                        <a href="http://localhost:8000/login" class="nav-link ml-5">Login</a>
+                    </li>
+                    <li class="nav-item text-nowrap">
+                        <a href="http://localhost:8000/register" class="nav-link">Sign Up</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="http://localhost:8000/logout" class="nav-link ml-5">Logout</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
     </nav>
 
     <div class="container-fluid">
@@ -94,10 +98,10 @@
                 </div>
             </nav>
 
-            <div class="col-md-9 col-lg-10 px-4 offset-2 my-5" id="products">
+            <div class="col-md-9 col-lg-10 offset-2 my-5" id="products">
                 {% for key, val in data.items %}
-                    <h2>{{ key }}</h2>
-                    <div id="{{ key|cut:' '|lower }}-carousel" class="carousel slide" data-ride="carousel">
+                    <h2 class="mt-3 py-2" style="background-color:white;">{{ key }}</h2>
+                    <div id="{{ key|cut:' '|lower }}-carousel" class="carousel slide mb-5" data-ride="carousel" style="background-color:white;">
                         <ol class="carousel-indicators">
                             {% for x in val %}
                                 <li data-target="#{{ key|cut:' '|lower }}-carousel" data-slide-to="{{forloop.counter0}}" class="{% if forloop.first %}active{% endif %}"></li>
@@ -106,7 +110,7 @@
                         <div class="carousel-inner">
                             {% for p_row in val %}
                                 <div class="item carousel-item{% if forloop.first %} active{% endif %}">
-                                    <div class="row">
+                                    <div class="row mx-5 py-2">
                                         {% for product in p_row %}
                                             <div class="col-sm-3">
                                                 <div class="thumb-wrapper">
@@ -125,7 +129,8 @@
                                                                 <li class="list-inline-item"><i class="fa fa-star"></i></li>
                                                             </div>
                                                         </div>
-                                                        <a href="http://localhost:8000/cart/add/{{ product.id }}" class="btn btn-primary">Add to Cart</a>
+                                                        <a href="http://localhost:8000/cart/add/{{ product.id }}" class="btn h-100">Add to Cart</a>
+                                                        <a href="http://localhost:8000/products/{{ product.id }}" class="btn">Details</a>
                                                     </div>
                                                 </div>
                                             </div>

@@ -14,7 +14,6 @@ def show_all_products(request):
 
         for category in categories:
             length = len(category.products.all())
-            print(length)
             data[f'{category.name}'] = []
             counter = 0
             product_arr = []
@@ -26,9 +25,6 @@ def show_all_products(request):
                     product_arr = []
                 elif counter == length-1:
                     data[f'{category.name}'].append(product_arr)
-                
-        # for key, val in data.items():
-        #     print(key, len(val))
         context = {
             'data': data
         }

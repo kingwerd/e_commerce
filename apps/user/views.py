@@ -76,6 +76,3 @@ def logout(request):
     if request.method == "GET":
         del request.session['user_id']
         return redirect('/')
-
-# TODO: create the register user function
-# TODO: upon successful validation of the user save the new id to the session
