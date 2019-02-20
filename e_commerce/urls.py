@@ -21,7 +21,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.products.urls')),
-    path('', include('apps.user.urls'))
+    path('', include('apps.user.urls')),
+    path('', include('apps.checkout.urls'))
 ]
 
 # if the setting in debug mode only during dev then add speicla view to add media content

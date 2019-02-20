@@ -16,9 +16,6 @@ class Category(models.Model):
     objects = CategoryManager()
 
 class ProductManager(models.Manager):
-    # TODO: get products within a certain price range
-    # TODO: get products within a certain rating range
-
     def product_validator(self, post_data):
         errors = {}
         if len(post_data['product_name']) < 1:
@@ -34,11 +31,13 @@ class ProductManager(models.Manager):
         if not post_data['category']:
             errors['product_category'] = "Product must have a cateogry"
         return errors
-    def create_product(self, name, price, short, long, stock, category_id):
-        product = Product.objects.create(name=name, price=price, short_description=short, long_description=long, stock=stock, category=Category.objects.get(id=category_id))
-    def get_products_in_category(self, category_id):
-        products = Product.objects.filter(category__id=category_id)
-        return products
+    def average_product_rating(self, id):
+        product = Product.objects.get(id=id)
+        ratings = []
+        for review in product.product_reviews.all():
+            ratings.append(review.rating)
+        return 4
+        # return sum(ratings) / len(ratings)
 
 class Product(models.Model):
     # TODO: get rid of the image field for the product that is currently being used
@@ -66,3 +65,9 @@ class ProductImages(models.Model):
     # TODO: determine where to store each image if it is not in a separate file
     image = models.ImageField(upload_to='product/images', null=True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
+
+# class Clicks(models.Model):
+#     times = models.IntegerField(default=0)
+#     clicked_at = models.DateTimeField(auto_now_add=True)
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="clicks")
+#     users = models.ManyToManyField(User, related_name="clicks")

@@ -54,26 +54,26 @@
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
-                    {% for product in cart.products.all %}
-                        <tbody>
-                            <tr>
-                                <td>
-                                    {% if product.images.all %}
-                                        <img src="{{ product.images.all.0.image.url }}" alt="" class="img-responsive table-image">
-                                    {% else %}
-                                        <img src="https://via.placeholder.com/150" alt="" class="img-responsive table-image">
-                                    {% endif %}
-                                </td>
-                                <td class="align-middle">
-                                    <a href="http://localhost:8000/products/{{ product.id }}">{{ product.name }}</a>
-                                </td>
-                                <td class="align-middle">{{ product.short_description }}</td>
-                                <td class="align-middle">${{ product.price }}</td>
-                                <td class="align-middle">
-                                    <a href="http://localhost:8000/cart/delete/{{ product.id }}" class="btn btn-danger">Delete</a>
-                                </td>
-                            </tr>
-                        </tbody>
+                    {% for product in cart_products %}
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        {% if product.product.images.all %}
+                                            <img src="{{ product.product.images.all.0.image.url }}" alt="" class="img-responsive table-image">
+                                        {% else %}
+                                            <img src="https://via.placeholder.com/150" alt="" class="img-responsive table-image">
+                                        {% endif %}
+                                    </td>
+                                    <td class="align-middle">
+                                        <a href="http://localhost:8000/products/{{ product.product.id }}">{{ product.product.name }}</a>
+                                    </td>
+                                    <td class="align-middle">{{ product.product.short_description }}</td>
+                                    <td class="align-middle">${{ product.product.price }}</td>
+                                    <td class="align-middle">
+                                        <a href="http://localhost:8000/cart/delete/{{ product.product.id }}" class="btn btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            </tbody>
                     {% endfor %}
                 </table>
 

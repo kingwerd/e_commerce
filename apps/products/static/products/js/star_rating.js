@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     // 1. Visualizing things on hover
     $('#stars li').on('mouseover', function() {
         // the star currently mouse on
@@ -28,5 +29,6 @@ $(document).ready(function() {
         for (var i = 0; i < onStar; i++) {
             $(stars[i]).addClass('selected');
         }
+        $('#rating-hidden-input').attr('value',onStar);
     })
 })

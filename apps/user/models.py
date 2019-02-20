@@ -62,6 +62,8 @@ class User(models.Model):
 class AddressManager(models.Manager):
     def address_manager(self, post_data):
         errors = {}
+        if post_data['address_type'] != 1 or post_data['address_type'] != 2:
+            errors['address_type'] = "Address type is required"
         if not post_data['address_type']:
             errors['address_type'] = "Address type is required"
         if len(post_data['street_number']) < 1:
@@ -96,8 +98,6 @@ class Address(models.Model):
 class ReviewManager(models.Manager):
     def review_validator(self, post_data):
         errors = {}
-        if post_data['address_type'] != 1 or post_data['address_type'] != 2:
-            errors
         if len(post_data['title']) < 1:
             errors['title'] = "Title is required"
         if len(post_data['review']) < 10:
@@ -130,4 +130,10 @@ class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cart")
-    products = models.ManyToManyField(Product, related_name="carts")
+
+class CartProducts(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    amount = models.IntegerField(default=0)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="carts")
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="cart_products")

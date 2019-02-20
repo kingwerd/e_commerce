@@ -6,13 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Products</title>
 
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-
+    <script src="{% static 'products/js/filter.js' %}"></script>
+    <script src="{% static 'products/js/add_to_cart.js' %}"></script>
     <link rel="stylesheet" href="{% static 'products/css/show_products_styles.css' %}">
     <link rel="stylesheet" href="{% static 'products/css/product_slider.css' %}">
 
@@ -115,7 +117,7 @@
                                             <div class="col-sm-3">
                                                 <div class="thumb-wrapper">
                                                     <div class="img-box">
-                                                        <img src="https://via.placeholder.com/150" alt="Placeholder image">
+                                                        <img src="{{ product.images.all.0.image.url }}" alt="Placeholder image">
                                                     </div>
                                                     <div class="thumb-content">
                                                         <h4>{{ product.name }}</h4>
@@ -129,7 +131,9 @@
                                                                 <li class="list-inline-item"><i class="fa fa-star"></i></li>
                                                             </div>
                                                         </div>
-                                                        <a href="http://localhost:8000/cart/add/{{ product.id }}" class="btn h-100">Add to Cart</a>
+                                                        <input type="hidden" name="product-name" value="{{ product.name }}">
+                                                        <button class="btn product-add" value="{{ product.id }}">Add to Cart</button>
+                                                        <!-- <a href="" class="btn h-100 product-add" id="{{ product.id }}">Add to Cart</a> -->
                                                         <a href="http://localhost:8000/products/{{ product.id }}" class="btn">Details</a>
                                                     </div>
                                                 </div>
@@ -153,6 +157,12 @@
         </div>
 
     </div>
-    <script src="{% static 'products/js/filter.js' %}"></script>
+
+    <div class="modal fade" id="cart-modal" tabindex="-1" role="dialog"  aria-hidden="true">
+    </div>
+    <!-- <script>jQuery.noConflict();</script> -->
+
+    <!-- <script src="{% static 'products/js/filter.js' %}"></script>
+    <script src="{% static 'products/js/add_to_cart.js' %}"></script> -->
 </body>
 </html>

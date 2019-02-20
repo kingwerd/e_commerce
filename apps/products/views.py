@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from django.core.files.storage import FileSystemStorage
+from django.contrib import messages
 from .models import Category, Product, ProductImages
+from ..user.models import User, Review
 
 # TODO: create a helper function to resize the images based on the template that they are currently in
 # TODO: user the PIL module to help with this
@@ -23,25 +25,46 @@ def show_all_products(request):
                 if counter % 4 == 0:
                     data[f'{category.name}'].append(product_arr)
                     product_arr = []
-                elif counter == length-1:
+                elif counter == length:
                     data[f'{category.name}'].append(product_arr)
         context = {
             'data': data
         }
         return render(request, 'products/show_products.html', context)
 
-# TODO: images so that they are rendering based on the amount of images the product has
 def show_single_product(request, id):
+    """ Information """
+    # TODO: change the style, color, and font of the product name to stand out more
+    # TODO: have the numeric representation of the reviews and star reviews evenly posititioned next to each other
+    # TODO: change the style, color, and font of the description header
+    # TODO: change the style, color, and font of the description so it looks like it is in its own box
+    # TODO: add the buy now button and add to cart button to the page around or near the quantity drop down
+    """ Images """
+    # TODO: update the layout of the images so there is a single box that is holding the main image
+    # TODO: when the user hovers over an image change the main image being displayed to the current image being hovered over
+    # TODO: if the users mouse goes off of the image then it reverts back to the original main image
+    # TODO: if the user clicks on the image they are hovering over it will be displayed as the main image
+    """ Reviews """
+    # TODO: update the layout for each review so the profile pic, user name, rating, title, and review and visually pleasing
+    # TODO: add filters for the reviews tab so the user can sift through the reviews
+    # TODO: change the rating stars that that the stars that are not checked are gray
+    # TODO: change the notification incase there is no reviews for a product
+    """ Leave a Review """
+    # TODO: change the layout of the leave a review so that it ressizes and does not change the overall layout of the page 
     if request.method == "GET":
         product = Product.objects.get(id=id)
+        average_rating = Product.objects.average_product_rating(id)
         context = {
             'product': product,
-            'rating': 4
+            'rating': average_rating
         }
         return render(request, 'products/product.html', context)
 
 # TODO: render the search options in the datalist and set a max height of the view
 def product_search(request):
+    """ Search Bar """
+    # TODO: add the datalist so that it displays the products that contain the characters that are entered into the search bar
+    # TODO: make sure that the datalist does not go past a certain height and is scrollable
     if request.method == "GET":
         search_string = list(request.GET.keys())[0]
         data = Product.objects.filter(name__startswith=search_string)
@@ -53,6 +76,11 @@ def product_search(request):
 # TODO: create the price min and max filter 
 # TODO: create the product ratings filter
 def filter_products(request):
+    """ Categories """
+    # TODO: update the category filter so that it has the new model representation
+    # TODO: come up with a new layout for the partial when the user filters based on category
+    """ Price """
+    # TODO: create the double range slider so that the user can filter the products based on price
     if request.method == "GET":
         data = request.GET
         category = None
@@ -81,15 +109,38 @@ def create_product(request):
         data = request.POST
         return redirect('/')
 
-# TODO: update the function so that it can handle the new multiple file model ProductImages
-# TODO: do the same thing for the create_production function
 def update_product(request, id):
     if request.method == "GET":
         return render(request, 'products/edit_product.html', {'product': Product.objects.get(id=id)})
     if request.method == "POST":
         product_images = request.FILES.getlist('product_images')
         product = Product.objects.get(id=id)
+        if request.POST['product_name']:
+            product.name = request.POST['product_name']
         for image in product_images:
             ProductImages.objects.create(image=image, product=product)
         product.save()
         return redirect('/')
+
+def review_product(request, id):
+    if request.method == "POST":
+        if 'user_id' in request.session:
+            data = request.POST
+            errors = Review.objects.review_validator(data)
+            if len(errors) > 0:
+                for key, val in errors.items():
+                    messages.error(request, value)
+                return redirect(f'/products/{id}')
+            else:
+                review = Review.objects.create(title=data['title'], comment=data['review'], rating=int(data['rating']), user=User.objects.get(id=request.session['user_id']), product=Product.objects.get(id=id))
+                review.save()
+                return redirect(f'/products/{id}')
+
+def cart_modal(request):
+    if request.method == "GET":
+        data = request.GET['product']
+        context = {
+            'product': Product.objects.get(id=int(data))
+        }
+        print(data)
+        return render(request, 'products/_cart_modal.html', context)

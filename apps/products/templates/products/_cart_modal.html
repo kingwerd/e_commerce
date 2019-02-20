@@ -1,0 +1,41 @@
+<div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">
+                Add To Cart
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Qty</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="w-25">
+                            <img src="{{ product.images.all.0.image.url }}" class="img-fluid img-thumbnail" />
+                        </td>
+                        <td>{{ product.name }}</td>
+                        <td>${{ product.price }}</td>
+                        <td>
+                            <input type="number" class="form-control" id="quantity" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer border-top-0 d-flex justify-content-end">
+            <input type="hidden" id="product_id" name="product_id" value="{{ product.id }}">
+            <a href="" data-dismiss="close" class="btn btn-success" id="product-confirm">Confirm</a>
+            <!-- <button type="button" class="btn btn-success">Confirm</button> -->
+        </div>
+    </div>
+</div>

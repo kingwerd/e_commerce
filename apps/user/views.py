@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-from .models import User, Cart
+from .models import User, Cart, CartProducts
 from ..products.models import Product
 
 import bcrypt
@@ -47,30 +47,33 @@ def cart(request):
         if 'user_id' in request.session:
             user = User.objects.get(id=request.session['user_id'])
             cart = Cart.objects.get(user__id=user.id)
+            cart_products = CartProducts.objects.filter(cart=cart)
             context = {
                 'user': user,
-                'cart': cart
+                'cart_products': cart_products
             }
             return render(request, 'user/cart.html', context)
         else:
             return render(request, 'user/cart.html')
 
-def add_to_cart(request, id):
+def add_to_cart(request, product_id, quantity):
     if request.method == "GET":
         if 'user_id' in request.session:
             user = User.objects.get(id=request.session['user_id'])
-            product = Product.objects.get(id=id)
+            product = Product.objects.get(id=product_id)
             cart = Cart.objects.get(user__id=user.id)
-            cart.products.add(product)
-            product.carts.add(cart)
-            product.save()
-            cart.save()
+            
+            CartProducts.objects.create(amount=quantity, product=product, cart=cart)
+            cart_products = CartProducts.objects.filter(cart__id = cart.id)
+            print('*'*80)
+            print(cart_products)
+            for product in cart_products:
+                print(product.product.images.all())
             context = {
                 'user': user,
-                'cart': cart
+                'cart_products': cart_products
             }
             return render(request, 'user/cart.html', context)
-
 
 def logout(request):
     if request.method == "GET":
