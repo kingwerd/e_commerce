@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-from .models import User, Cart, CartProducts
+from .models import User, Cart, CartProducts, Address
 from ..products.models import Product
 
 import bcrypt
@@ -13,16 +13,22 @@ def register(request):
         return render(request, 'user/register.html')
     if request.method == "POST":
         data = request.POST
-        errors = User.objects.registration_validator(data)
-        if len(errors) > 0:
-            for key, value in errors.items():
-                messages.error(request, value)
+        register_errors = User.objects.registration_validator(data)
+        address_errors = Address.objects.address_validator(data)
+        if len(register_errors) > 0 or len(address_errors) > 0:
+            if register_errors:
+                for key, value in register_errors.items():
+                    messages.error(request, value)
+            if address_errors:
+                for key, value in address_errors.items():
+                    messages.error(request, value)
             return redirect('/register')
         else:
             password = data['password'].encode()
             password = bcrypt.hashpw(password, bcrypt.gensalt()).decode()
             user = User.objects.create(first_name=data['first_name'], last_name=data['last_name'], email=data['email'], username=data['username'], password=password,phone_number=data['phone'])
             user.save()
+            Address.objects.create(address_type=data['address_type'], address1=data['address_1'], city=data['city'], zip_code=data['zip_code'], state_province=data['state'], country=data['country'], user=user)
             request.session['user_id'] = user.id
             Cart.objects.create(user=user)
             return redirect('/')

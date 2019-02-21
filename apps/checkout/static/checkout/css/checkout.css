@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+    font-family: Nunito,sans-serif;
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #6c757d;
+    text-align: left;
+    background-color: #fafbfe;
+}
+#main-content {
+    margin: auto 0;
+}
+.bg-nav-pills {
+    background-color: #e3eaef;
+}
+.nav-pills .nav-link.active {
+    color: #fff;
+    background-color: #727cf5;
+}
+.nav-pills>li>a, .nav-tabs>li>a {
+    color: #6c757d;
+    font-weight: 600;
+}
+.btn-danger {
+    -webkit-box-shadow: 0 2px 6px 0 rgba(250,92,124,.5);
+    box-shadow: 0 2px 6px 0 rgba(250,92,124,.5);
+}
+.btn-danger {
+    color: #fff;
+    background-color: #fa5c7c;
+    border-color: #fa5c7c;
+}
+.font-weight-semibold {
+    font-weight: 600!important;
+}
+.btn-link {
+    text-decoration: none;
+}
+.address.address-lg {
+    line-height: 24px;
+}
+.custom-control {
+    position: relative;
+    display: block;
+    min-height: 1.3125rem;
+    padding-left: 1.5rem;
+}

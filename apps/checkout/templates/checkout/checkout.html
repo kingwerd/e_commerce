@@ -1,0 +1,356 @@
+<!DOCTYPE html> {% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Checkout</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}" />
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row" id="main-content">
+            <div class="col-12" >
+                <div class="card" >
+                    <div class="card-body">
+                        <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                            <li class="nav-item">
+                                <a href="#billing-information" data-toggle="tab" aria-expanded="false" class="nav-link rounded-0 active">
+                                    <i class="far fa-user-circle"></i>
+                                    <span class="d-none d-lg-block">Billing Info</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#shipping-information" data-toggle="tab" aria-expanded="true" class="nav-link rounded-0">
+                                    <i class="fas fa-shipping-fast"></i>
+                                    <span class="d-none d-lg-block">Shipping Info</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#payment-information" data-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                                    <i class="fas fa-hand-holding-usd"></i>
+                                    <span class="d-none d-lg-block">Payment Info</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="billing-information">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <h4 class="mt-2">Billing Information</h4>
+                                        <p class="text-muted mb-4">Fill the form below in order to send you the order's invoice.</p>
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="billing-first-name">First Name</label>
+                                                        <input class="form-control" type="text" placeholder="Enter your first name" id="billing-first-name" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="billing-last-name">Last Name</label>
+                                                        <input class="form-control" type="text" placeholder="Enter your last name" id="billing-last-name" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end row -->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="billing-email-address">Email Address <span class="text-danger">*</span></label>
+                                                        <input class="form-control" type="email" placeholder="Enter your email" id="billing-email-address" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="billing-phone">Phone <span class="text-danger">*</span></label>
+                                                        <input class="form-control" type="text" placeholder="(xx) xxx xxxx xxx" id="billing-phone" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end row -->
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="billing-address">Address</label>
+                                                        <input class="form-control" type="text" placeholder="Enter full address" id="billing-address" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end row -->
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="billing-town-city">Town / City</label>
+                                                        <input class="form-control" type="text" placeholder="Enter your city name" id="billing-town-city" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="billing-state">State</label>
+                                                        <input class="form-control" type="text" placeholder="Enter your state" id="billing-state" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="billing-zip-postal">Zip / Postal Code</label>
+                                                        <input class="form-control" type="text" placeholder="Enter your zip code" id="billing-zip-postal" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end row -->
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="customCheck2" />
+                                                            <label class="custom-control-label" for="customCheck2">Ship to different address ?</label>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row mt-4">
+                                                <div class="col-sm-6">
+                                                    <a href="http://localhost:8000/cart" class="btn text-muted d-none d-sm-inline-block btn-link font-weight-semibold"> <i class="fas fa-arrow-circle-left"></i> Back to Shopping Cart </a>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="text-sm-right">
+                                                        <a href="" data-toggle="#shipping-information" class="btn btn-danger"> <i class="fas fa-shipping-fast"></i> Proceed to Shipping </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="shipping-information">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <h4 class="mt-2">Saved Address</h4>
+                                        <p class="text-muted mb-3">Fill the form below in order to send you the order's invoice.</p>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="border p-3 rounded">
+                                                    <address class="mb-0 font-14 address-lg">
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                                                            <label class="custom-control-label font-16 font-weight-bold" for="customRadio1">Home</label>
+                                                        </div>
+                                                        <br>
+                                                        <span class="font-weight-semibold">Stanley Jones</span> <br>
+                                                        795 Folsom Ave, Suite 600<br>
+                                                        San Francisco, CA 94107<br>
+                                                        <abbr title="Phone">P:</abbr> (123) 456-7890 <br>
+                                                    </address>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h4 class="mt-4">Add New Address</h4>
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="new-adr-first-name">First Name</label>
+                                                        <input class="form-control" type="text" placeholder="Enter your first name" id="new-adr-first-name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="new-adr-last-name">Last Name</label>
+                                                        <input class="form-control" type="text" placeholder="Enter your last name" id="new-adr-last-name">
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end row -->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="new-adr-email-address">Email Address <span class="text-danger">*</span></label>
+                                                        <input class="form-control" type="email" placeholder="Enter your email" id="new-adr-email-address">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="new-adr-phone">Phone <span class="text-danger">*</span></label>
+                                                        <input class="form-control" type="text" placeholder="(xx) xxx xxxx xxx" id="new-adr-phone">
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end row -->
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="new-adr-address">Address</label>
+                                                        <input class="form-control" type="text" placeholder="Enter full address" id="new-adr-address">
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end row -->
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="new-adr-town-city">Town / City</label>
+                                                        <input class="form-control" type="text" placeholder="Enter your city name" id="new-adr-town-city">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="new-adr-state">State</label>
+                                                        <input class="form-control" type="text" placeholder="Enter your state" id="new-adr-state">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="new-adr-zip-postal">Zip / Postal Code</label>
+                                                        <input class="form-control" type="text" placeholder="Enter your zip code" id="new-adr-zip-postal">
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end row -->
+
+                                            <h4 class="mt-4">Shipping Method</h4>
+
+                                            <p class="text-muted mb-3">Fill the form below in order to
+                                                send you the order's invoice.</p>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="border p-3 rounded">
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" id="shippingMethodRadio1" name="shippingOptions" class="custom-control-input" checked="">
+                                                            <label class="custom-control-label font-16 font-weight-bold" for="shippingMethodRadio1">Standard Delivery - FREE</label>
+                                                        </div>
+                                                        <p class="mb-0 pl-3 pt-1">Estimated 5-7 days shipping (Duties and tax may be due upon delivery)</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="border p-3 rounded">
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" id="shippingMethodRadio2" name="shippingOptions" class="custom-control-input">
+                                                            <label class="custom-control-label font-16 font-weight-bold" for="shippingMethodRadio2">Fast Delivery - $25</label>
+                                                        </div>
+                                                        <p class="mb-0 pl-3 pt-1">Estimated 1-2 days shipping (Duties and tax may be due upon delivery)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end row-->
+
+                                            <div class="row mt-4">
+                                                <div class="col-sm-6">
+                                                    <a href="http://localhost:8000/cart" class="btn text-muted d-none d-sm-inline-block btn-link font-weight-semibold">
+                                                        <i class="fas fa-arrow-circle-left"></i> Back to Shopping Cart </a>
+                                                </div> <!-- end col -->
+                                                <div class="col-sm-6">
+                                                    <div class="text-sm-right">
+                                                        <a href="" class="btn btn-danger">
+                                                            <i class="fas fa-hand-holding-usd"></i> Continue to Payment </a>
+                                                    </div>
+                                                </div> <!-- end col -->
+                                            </div> <!-- end row -->
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="payment-information">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <h4 class="mt-2">Payment Selection</h4>
+                                        <div class="border p-3 mb-3 rounded">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" id="BillingOptRadio2" name="billingOptions" class="custom-control-input">
+                                                        <label class="custom-control-label font-16 font-weight-bold" for="BillingOptRadio2">Pay with Paypal</label>
+                                                    </div>
+                                                    <p class="mb-0 pl-3 pt-1">You will be redirected to PayPal website to complete your purchase securely.</p>
+                                                </div>
+                                                <div class="col-sm-4 text-sm-right mt-3 mt-sm-0">
+                                                    <img src="{% static 'checkout/img/paypal.png' %}" height="25" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="border p-3 mb-3 rounded">
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" id="BillingOptRadio1" name="billingOptions" class="custom-control-input" checked="">
+                                                            <label class="custom-control-label font-16 font-weight-bold" for="BillingOptRadio1">Credit / Debit Card</label>
+                                                        </div>
+                                                        <p class="mb-0 pl-3 pt-1">Safe money transfer using your bank account. We support Mastercard, Visa, Discover and Stripe.</p>
+                                                    </div>
+                                                    <div class="col-sm-4 text-sm-right mt-3 mt-sm-0">
+                                                        <img src="{% static 'checkout/img/master.png' %}" height="24" alt="master-card-img">
+                                                        <img src="{% static 'checkout/img/discover.png' %}" height="24" alt="discover-card-img">
+                                                        <img src="{% static 'checkout/img/visa.png' %}" height="24" alt="visa-card-img">
+                                                        <img src="{% static 'checkout/img/stripe.png' %}" height="24" alt="stripe-card-img">
+                                                    </div>
+                                                </div> <!-- end row -->
+                                                <div class="row mt-4">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="card-number">Card Number</label>
+                                                            <input type="text" id="card-number" class="form-control" data-toggle="input-mask" data-mask-format="0000 0000 0000 0000" placeholder="4242 4242 4242 4242" maxlength="19">
+                                                        </div>
+                                                    </div>
+                                                </div> <!-- end row -->
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="card-name-on">Name on card</label>
+                                                            <input type="text" id="card-name-on" class="form-control" placeholder="Master Shreyu">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="card-expiry-date">Expiry date</label>
+                                                            <input type="text" id="card-expiry-date" class="form-control" data-toggle="input-mask" data-mask-format="00/00" placeholder="MM/YY" maxlength="5">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="card-cvv">CVV code</label>
+                                                            <input type="text" id="card-cvv" class="form-control" data-toggle="input-mask" data-mask-format="000" placeholder="012" maxlength="3">
+                                                        </div>
+                                                    </div>
+                                                </div> <!-- end row -->
+                                        </div>
+                                        <div class="border p-3 mb-3 rounded">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" id="BillingOptRadio4" name="billingOptions" class="custom-control-input">
+                                                        <label class="custom-control-label font-16 font-weight-bold" for="BillingOptRadio4">Cash on Delivery</label>
+                                                    </div>
+                                                    <p class="mb-0 pl-3 pt-1">Pay with cash when your order is delivered.</p>
+                                                </div>
+                                                <div class="col-sm-4 text-sm-right mt-3 mt-sm-0">
+                                                    <img src="{% static 'checkout/img/cod.png' %}" height="22" alt="paypal-img">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-4">
+                                            <div class="col-sm-6">
+                                                <a href="http://localhost:8000/cart" class="btn text-muted d-none d-sm-inline-block btn-link font-weight-semibold">
+                                                    <i class="fas fa-arrow-circle-left"></i> Back to Shopping Cart </a>
+                                            </div> <!-- end col -->
+                                            <div class="col-sm-6">
+                                                <div class="text-sm-right">
+                                                    <a href="" class="btn btn-danger">
+                                                        <i class="fas fa-money-bill"></i> Complete Order </a>
+                                                </div>
+                                            </div> <!-- end col -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

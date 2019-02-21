@@ -60,32 +60,32 @@ class User(models.Model):
     objects = UserManager()
 
 class AddressManager(models.Manager):
-    def address_manager(self, post_data):
+    def address_validator(self, post_data):
+        STREET_ADDRESS_REGEX = re.compile('\d{1,4} [\w\s]{1,20}(?:street|st|avenue|ave|road|rd|highway|hwy|square|sq|trail|trl|drive|dr|court|ct|parkway|pkwy|circle|cir|boulevard|blvd)\W?(?=\s|$)', re.IGNORECASE)
         errors = {}
-        if post_data['address_type'] != 1 or post_data['address_type'] != 2:
-            errors['address_type'] = "Address type is required"
+        # if post_data['address_type'] != 1 or post_data['address_type'] != 2:
+        #     errors['address_type'] = "Address type is required"
         if not post_data['address_type']:
             errors['address_type'] = "Address type is required"
-        if len(post_data['street_number']) < 1:
-            errors['street_number'] = "Street number is required"
-        if len(post_data['street']) < 1:
-            errors['street'] = "Street name is required"
-        if len(post_data['city']) < 1:
+        if len(post_data['address_1']) < 1:
+            errors['address_1'] = "Street number is required"
+        if not STREET_ADDRESS_REGEX.match(post_data['address_1']):
+            errors['address_1_format'] = "Incorrect address format"
+        if not post_data['city']:
             errors['city'] = "City is required"
         if len(post_data['zip_code']) != 5:
             errors['zip_code'] = "Zip code is required and must be 5 numbers"
-        if len(post_data['state_province']) < 1:
-            errors['state_province'] = "State or province is required"
-        if len(post_data['country']) < 1:
+        if not post_data['state']:
+            errors['state'] = "State  is required"
+        if not post_data['country']:
             errors['country'] = "Country is required"
         return errors
 
 # TODO: create the address model with the appropriate fields
 class Address(models.Model):
     address_type = models.IntegerField()
-    street_number = models.IntegerField()
-    street = models.CharField(max_length=100)
-    apt_number = models.IntegerField(blank=True, null=True)
+    address1 = models.CharField(max_length=255, default="")
+    address2 = models.CharField(max_length=100, default="")
     city = models.CharField(max_length=150)
     zip_code = models.IntegerField()
     state_province = models.CharField(max_length=150)
