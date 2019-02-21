@@ -9,6 +9,13 @@ from ..user.models import User, Review
 # TODO: user the PIL module to help with this
 
 def show_all_products(request):
+    """ Details Hover """
+    # TODO: when the user hovers over the image of a product, an overlay with information appears about the product
+    """ Product Slider """
+    # TODO: fix the size of the indicators that they are laid out horizontally instead of vertically
+    # TODO: clean up the css file that is used for the product slider
+    # TODO: update the layout for each product that is displayed
+    # TODO: fix the prices to display the trailing 0
     if request.method == "GET":
         data = {}
 
@@ -73,14 +80,20 @@ def product_search(request):
             names.append(obj.name)
         return JsonResponse(names, safe=False)
 
-# TODO: create the price min and max filter 
-# TODO: create the product ratings filter
 def filter_products(request):
+    """ Overall """
+    # TODO: have different layouts for each type of filter
+    # TODO: implement functionality to allow users to have multiple ratings at the same time
+    # TODO: have all rating be executed with an ajax request that injects the partial html in the document
+    """ Products Partial """
+    # TODO: come up with a new layout for the partial when the user filters the products
     """ Categories """
     # TODO: update the category filter so that it has the new model representation
-    # TODO: come up with a new layout for the partial when the user filters based on category
     """ Price """
     # TODO: create the double range slider so that the user can filter the products based on price
+    # TODO: for the max price get the highest price and set the as the max for the range
+    """ Ratings """
+    # TODO: create the ratings filter that acts just like the rating buttons in the leave a review tab
     if request.method == "GET":
         data = request.GET
         category = None
@@ -137,6 +150,7 @@ def review_product(request, id):
                 return redirect(f'/products/{id}')
 
 def cart_modal(request):
+    # TODO: change the design of the add to cart modal so that it is more visually pleasing
     if request.method == "GET":
         data = request.GET['product']
         context = {

@@ -1,3 +1,19 @@
+body {
+    margin: 0;
+	font-family: Nunito, sans-serif;
+	font-size: 0.875rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #6c757d;
+	text-align: left;
+	background-color: #fafbfe;
+}
 #main-content {
-    margin-top: 7vh;
+    margin-top: 13vh;
+}
+.btn-success {
+    color: #fff;
+    background-color: #727cf5;
+    border-color: #727cf5;
+    box-shadow: 0 2px 6px 0 rgba(114, 124, 245, 0.5);
 }

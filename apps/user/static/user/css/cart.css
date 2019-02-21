@@ -29,11 +29,16 @@ body {
 
 #main-content {
     margin-top: 7vh;
-    height: 90vh;
-    overflow-y: auto;
+    /* height: 90vh; */
+    /* overflow-y: auto; */
 }
 
 .table-image {
     width: 7vw;
     height: auto;
+}
+
+#cart-table {
+    height: 90vh;
+    overflow: auto;
 }

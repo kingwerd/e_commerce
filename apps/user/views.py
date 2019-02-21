@@ -57,6 +57,8 @@ def cart(request):
             return render(request, 'user/cart.html')
 
 def add_to_cart(request, product_id, quantity):
+    """ Add to Cart """
+    # TODO: add functionality for a non registered or logged in user to add produdcts to their cart
     if request.method == "GET":
         if 'user_id' in request.session:
             user = User.objects.get(id=request.session['user_id'])
