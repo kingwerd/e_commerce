@@ -4,7 +4,6 @@ var max = document.getElementById('max-price')
 min.innerText = sliders[0].value
 max.innerText = sliders[1].value
 function updatePriceLabels() {
-    console.log(sliders)
     sliders = document.querySelectorAll(".price-slider input");
     val1 = parseInt(sliders[0].value);
     val2 = parseInt(sliders[1].value);

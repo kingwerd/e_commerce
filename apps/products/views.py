@@ -18,7 +18,7 @@ def show_all_products(request):
     # TODO: fix the prices to display the trailing 0
     if request.method == "GET":
         data = {}
-
+        max_price = 0
         categories = Category.objects.all()
 
         for category in categories:
@@ -27,6 +27,8 @@ def show_all_products(request):
             counter = 0
             product_arr = []
             for product in category.products.all():
+                if product.price > max_price:
+                    max_price = product.price
                 product_arr.append(product)
                 counter += 1
                 if counter % 4 == 0:
@@ -35,6 +37,8 @@ def show_all_products(request):
                 elif counter == length:
                     data[f'{category.name}'].append(product_arr)
         context = {
+            'categories': categories,
+            'max_price': max_price,
             'data': data
         }
         return render(request, 'products/show_products.html', context)
@@ -80,20 +84,35 @@ def product_search(request):
             names.append(obj.name)
         return JsonResponse(names, safe=False)
 
-def filter_products(request):
-    """ Overall """
-    # TODO: have different layouts for each type of filter
-    # TODO: implement functionality to allow users to have multiple ratings at the same time
-    # TODO: have all rating be executed with an ajax request that injects the partial html in the document
-    """ Products Partial """
-    # TODO: come up with a new layout for the partial when the user filters the products
-    """ Categories """
-    # TODO: update the category filter so that it has the new model representation
-    """ Price """
-    # TODO: create the double range slider so that the user can filter the products based on price
-    # TODO: for the max price get the highest price and set the as the max for the range
-    """ Ratings """
+
+"""
+##################################################################################################################
+FILTERS
+    Overall
+    TODO: have different layouts for each type of filter
+    TODO: implement functionality to allow users to have multiple ratings at the same time
+    TODO: have all rating be executed with an ajax request that injects the partial html in the document
+    Products Partial
+    TODO: come up with a new layout for the partial when the user filters the products
+    Categories
+    TODO: update the category filter so that it has the new model representation
+    Ratings
     # TODO: create the ratings filter that acts just like the rating buttons in the leave a review tab
+##################################################################################################################
+"""
+def filter_price(request):
+    if request.method == "GET":
+        min_price = int(request.GET['min-price-slider'])
+        max_price = int(request.GET['max-price-slider'])
+        products = Product.objects.filter(price__gte=min_price, price__lte=max_price)
+        # products.order_by('price').asc()
+        context = {
+            'products': products,
+            'min': min_price,
+            'max': max_price 
+        }
+        return render(request, 'products/_products.html', context)
+def filter_categories(request):
     if request.method == "GET":
         data = request.GET
         category = None
@@ -102,10 +121,6 @@ def filter_products(request):
                 category = Category.objects.all()
             else:
                 category = Category.objects.filter(id=int(data['category_filter']))
-        elif data['price_filter']:
-            print('getting products with a certain price')
-        elif data['rating_filter']:
-            print('getting products with a certain rating')
         context = {
             'categories': category
         }

@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <script src="{% static 'products/js/filter.js' %}"></script>
     <script src="{% static 'products/js/add_to_cart.js' %}"></script>
-    <!-- <script src="{% static 'products/js/price_range_slider.js' %}"></script> -->
+    <script src="{% static 'products/js/filter.js' %}"></script>
     <link rel="stylesheet" href="{% static 'products/css/show_products_styles.css' %}">
     <link rel="stylesheet" href="{% static 'products/css/product_slider.css' %}">
     <link rel="stylesheet" href="{% static 'products/css/price_range_slider.css' %}">
@@ -82,8 +82,10 @@
                         <li class="nav-item">
                             <p>Price: $<span id="min-price"></span> - $<span id="max-price"></span></p> 
                             <div class="price-slider">
-                                <input type="range" value="0" min="0" step="1.0" max="100" oninput="updatePriceLabels()">
-                                <input type="range" value="100" min="0" step="1.0" max="100" oninput="updatePriceLabels()">
+                                <form id="price-slider-form" method="GET">
+                                    <input type="range" id="min-price-slider" name="min-price-slider" class="form-control" value="0" min="0" step="1.0" max="{{ max_price }}" oninput="updatePriceLabels()">
+                                    <input type="range" id="max-price-slider" name="max-price-slider" class="form-control" value="{{ max_price }}" min="0" step="1.0" max="{{ max_price }}" oninput="updatePriceLabels()">
+                                </form>
                             </div>
                         </li>
                         <li class="nav-item">
@@ -154,5 +156,6 @@
     <div class="modal fade" id="cart-modal" tabindex="-1" role="dialog"  aria-hidden="true">
     </div>
     <script src="{% static 'products/js/price_range_slider.js' %}"></script>
+    <script src="{% static 'products/js/filter.js' %}"></script>
 </body>
 </html>

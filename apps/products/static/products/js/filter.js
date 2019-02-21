@@ -16,8 +16,25 @@ $('#category_filter').change(function(e){
         url:'products/filter',
         method: 'get',
         data: $(this).serialize(),
-        success: function(serverResponse) {
-            document.getElementById('products').innerHTML = serverResponse
+        success: function(res) {
+            document.getElementById('products').innerHTML = res
         }
     })
 })
+
+$('#min-price-slider').change(function(e) {
+    filter_price()
+})
+$('#max-price-slider').change(function(e) {
+    filter_price()
+})
+function filter_price() {
+    $.ajax({
+        url: 'products/filter/price',
+        method: 'get',
+        data: $('#price-slider-form').serialize(),
+        success: function(res) {
+            document.getElementById('products').innerHTML = res
+        }
+    })
+}
