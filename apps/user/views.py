@@ -30,7 +30,8 @@ def register(request):
             user.save()
             Address.objects.create(address_type=data['address_type'], address1=data['address_1'], city=data['city'], zip_code=data['zip_code'], state_province=data['state'], country=data['country'], user=user)
             request.session['user_id'] = user.id
-            Cart.objects.create(user=user)
+            cart = Cart.objects.create(user=user)
+            request.session['cart_id'] = cart.id
             return redirect('/')
 
 def login(request):
@@ -70,7 +71,6 @@ def add_to_cart(request, product_id, quantity):
             user = User.objects.get(id=request.session['user_id'])
             product = Product.objects.get(id=product_id)
             cart = Cart.objects.get(user__id=user.id)
-            
             CartProducts.objects.create(amount=quantity, product=product, cart=cart)
             cart_products = CartProducts.objects.filter(cart__id = cart.id)
             print('*'*80)
@@ -81,7 +81,8 @@ def add_to_cart(request, product_id, quantity):
                 'user': user,
                 'cart_products': cart_products
             }
-            return render(request, 'user/cart.html', context)
+            return redirect('/cart')
+            # return render(request, 'user/cart.html', context)
 
 def logout(request):
     if request.method == "GET":

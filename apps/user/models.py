@@ -63,10 +63,11 @@ class AddressManager(models.Manager):
     def address_validator(self, post_data):
         STREET_ADDRESS_REGEX = re.compile('\d{1,4} [\w\s]{1,20}(?:street|st|avenue|ave|road|rd|highway|hwy|square|sq|trail|trl|drive|dr|court|ct|parkway|pkwy|circle|cir|boulevard|blvd)\W?(?=\s|$)', re.IGNORECASE)
         errors = {}
+        # TODO: update address model so that it can handle the addresses from the different checkout models
         # if post_data['address_type'] != 1 or post_data['address_type'] != 2:
         #     errors['address_type'] = "Address type is required"
-        if not post_data['address_type']:
-            errors['address_type'] = "Address type is required"
+        # if not post_data['address_type']:
+        #     errors['address_type'] = "Address type is required"
         if len(post_data['address_1']) < 1:
             errors['address_1'] = "Street number is required"
         if not STREET_ADDRESS_REGEX.match(post_data['address_1']):
@@ -81,15 +82,14 @@ class AddressManager(models.Manager):
             errors['country'] = "Country is required"
         return errors
 
-# TODO: create the address model with the appropriate fields
 class Address(models.Model):
-    address_type = models.IntegerField()
+    address_type = models.IntegerField(default=1)
     address1 = models.CharField(max_length=255, default="")
     address2 = models.CharField(max_length=100, default="")
     city = models.CharField(max_length=150)
     zip_code = models.IntegerField()
     state_province = models.CharField(max_length=150)
-    country = models.CharField(max_length=150)
+    country = models.CharField(max_length=150, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="addresses")
@@ -106,7 +106,6 @@ class ReviewManager(models.Manager):
             errors['rating'] = "Rating is required"
         return errors
 
-# TODO: create the review model with the appropriate fields
 class Review(models.Model):
     title = models.CharField(max_length=150)
     comment = models.TextField()

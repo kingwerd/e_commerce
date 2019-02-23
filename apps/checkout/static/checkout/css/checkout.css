@@ -16,7 +16,7 @@ body {
 }
 .nav-pills .nav-link.active {
     color: #fff;
-    background-color: #727cf5;
+    background-color: rgb(244, 54, 54);
 }
 .nav-pills>li>a, .nav-tabs>li>a {
     color: #6c757d;
@@ -24,12 +24,12 @@ body {
 }
 .btn-danger {
     -webkit-box-shadow: 0 2px 6px 0 rgba(250,92,124,.5);
-    box-shadow: 0 2px 6px 0 rgba(250,92,124,.5);
+    box-shadow: 0 2px 6px 0 rgba(92, 185, 250, 0.5);;
 }
 .btn-danger {
     color: #fff;
-    background-color: #fa5c7c;
-    border-color: #fa5c7c;
+    background-color:#22ca29;
+    border-color: #22ca29;
 }
 .font-weight-semibold {
     font-weight: 600!important;
@@ -45,4 +45,7 @@ body {
     display: block;
     min-height: 1.3125rem;
     padding-left: 1.5rem;
+}
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
 }
