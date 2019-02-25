@@ -38,13 +38,13 @@
                                 </a>
                             </li>
                         </ul>
-                        <div class="tab-content">
+                        <div class="tab-content" id="content">
                             <div class="tab-pane active" id="billing-information">
                                 <div class="row">
                                     <div class="col-lg-8">
                                         <h4 class="mt-2">Billing Information</h4>
                                         <p class="text-muted mb-4">Fill the form below in order to send you the order's invoice.</p>
-                                        <form>
+                                        <form action="/checkout/billing" method="post">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
@@ -122,11 +122,57 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="text-sm-right">
-                                                        <a href="" data-toggle="#shipping-information" class="btn btn-danger"> <i class="fas fa-shipping-fast"></i> Proceed to Shipping </a>
+                                                        <button class="btn btn-danger" id="billing-next"> <i class="fas fa-shipping-fast"></i> Proceed to Shipping </button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </form>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="border p-3 mt-4 mt-lg-0 rounded">
+                                            <h4 class="header-title mb-3">Order Summary</h4>
+                                            <div class="table-responsive">
+                                                <table class="table table-centered mb-0">
+                                                    <tbody>
+                                                        {% for product in cart_products %}
+                                                            <tr>
+                                                                <td>
+                                                                    <img src="{{ product.product.images.all.0.image.url }}" alt="" class="rounded mr-2" height="48">
+                                                                    <p class="m-0 d-inline-block align-middle">
+                                                                        <a href="http://localhost:8000/products/{{ product.product.id }}" class="text-body font-weight-semibold">{{ product.product.name }}</a>
+                                                                        <br>
+                                                                        <small>{{ product.amount }} x ${{ product.product.price }}</small>
+                                                                    </p>
+                                                                </td>
+                                                                <td class="text-right">${{ total }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        <tr class="text-right">
+                                                            <td>
+                                                                <h6 class="m-0">Sub Total:</h6>
+                                                            </td>
+                                                            <td class="text-right">{{ total }}</td>
+                                                        </tr>
+                                                        <tr class="text-right">
+                                                            <td>
+                                                                <h6 class="m-0">Shipping:</h6>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                FREE
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="text-right">
+                                                            <td>
+                                                                <h5 class="m-0">Total:</h5>
+                                                            </td>
+                                                            <td class="text-right font-weight-semibold">
+                                                                {{ total }}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -249,12 +295,58 @@
                                                 </div> <!-- end col -->
                                                 <div class="col-sm-6">
                                                     <div class="text-sm-right">
-                                                        <a href="" class="btn btn-danger">
+                                                        <a href="" class="btn btn-danger" id="shipping-next">
                                                             <i class="fas fa-hand-holding-usd"></i> Continue to Payment </a>
                                                     </div>
                                                 </div> <!-- end col -->
                                             </div> <!-- end row -->
                                         </form>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="border p-3 mt-4 mt-lg-0 rounded">
+                                            <h4 class="header-title mb-3">Order Summary</h4>
+                                            <div class="table-responsive">
+                                                <table class="table table-centered mb-0">
+                                                    <tbody>
+                                                        {% for product in cart_products %}
+                                                            <tr>
+                                                                <td>
+                                                                    <img src="{{ product.product.images.all.0.image.url }}" alt="" class="rounded mr-2" height="48">
+                                                                    <p class="m-0 d-inline-block align-middle">
+                                                                        <a href="http://localhost:8000/products/{{ product.product.id }}" class="text-body font-weight-semibold">{{ product.product.name }}</a>
+                                                                        <br>
+                                                                        <small>{{ product.amount }} x ${{ product.product.price }}</small>
+                                                                    </p>
+                                                                </td>
+                                                                <td class="text-right">${{ total }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        <tr class="text-right">
+                                                            <td>
+                                                                <h6 class="m-0">Sub Total:</h6>
+                                                            </td>
+                                                            <td class="text-right">{{ total }}</td>
+                                                        </tr>
+                                                        <tr class="text-right">
+                                                            <td>
+                                                                <h6 class="m-0">Shipping:</h6>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                FREE
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="text-right">
+                                                            <td>
+                                                                <h5 class="m-0">Total:</h5>
+                                                            </td>
+                                                            <td class="text-right font-weight-semibold">
+                                                                {{ total }}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -321,20 +413,6 @@
                                                     </div>
                                                 </div> <!-- end row -->
                                         </div>
-                                        <div class="border p-3 mb-3 rounded">
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <div class="custom-control custom-radio">
-                                                        <input type="radio" id="BillingOptRadio4" name="billing_options" class="custom-control-input" value="3">
-                                                        <label class="custom-control-label font-16 font-weight-bold" for="BillingOptRadio4">Cash on Delivery</label>
-                                                    </div>
-                                                    <p class="mb-0 pl-3 pt-1">Pay with cash when your order is delivered.</p>
-                                                </div>
-                                                <div class="col-sm-4 text-sm-right mt-3 mt-sm-0">
-                                                    <img src="{% static 'checkout/img/cod.png' %}" height="22" alt="paypal-img">
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="row mt-4">
                                             <div class="col-sm-6">
                                                 <a href="http://localhost:8000/cart" class="btn text-muted d-none d-sm-inline-block btn-link font-weight-semibold">
@@ -342,10 +420,56 @@
                                             </div> <!-- end col -->
                                             <div class="col-sm-6">
                                                 <div class="text-sm-right">
-                                                    <a href="" class="btn btn-danger">
+                                                    <a href="" class="btn btn-danger" id="complete">
                                                         <i class="fas fa-money-bill"></i> Complete Order </a>
                                                 </div>
                                             </div> <!-- end col -->
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="border p-3 mt-4 mt-lg-0 rounded">
+                                            <h4 class="header-title mb-3">Order Summary</h4>
+                                            <div class="table-responsive">
+                                                <table class="table table-centered mb-0">
+                                                    <tbody>
+                                                        {% for product in cart_products %}
+                                                            <tr>
+                                                                <td>
+                                                                    <img src="{{ product.product.images.all.0.image.url }}" alt="" class="rounded mr-2" height="48">
+                                                                    <p class="m-0 d-inline-block align-middle">
+                                                                        <a href="http://localhost:8000/products/{{ product.product.id }}" class="text-body font-weight-semibold">{{ product.product.name }}</a>
+                                                                        <br>
+                                                                        <small>{{ product.amount }} x ${{ product.product.price }}</small>
+                                                                    </p>
+                                                                </td>
+                                                                <td class="text-right">${{ total }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        <tr class="text-right">
+                                                            <td>
+                                                                <h6 class="m-0">Sub Total:</h6>
+                                                            </td>
+                                                            <td class="text-right">{{ total }}</td>
+                                                        </tr>
+                                                        <tr class="text-right">
+                                                            <td>
+                                                                <h6 class="m-0">Shipping:</h6>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                FREE
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="text-right">
+                                                            <td>
+                                                                <h5 class="m-0">Total:</h5>
+                                                            </td>
+                                                            <td class="text-right font-weight-semibold">
+                                                                {{ total }}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

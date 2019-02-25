@@ -6,6 +6,15 @@ from ..products.models import Product
 
 import bcrypt
 
+
+"""
+TODO: add delete functionality for the cart
+TODO: create a 'wish list' for users save certain items in the cart for purchase later
+TODO: add an admin field to the user model to determine if the current user is an admin
+TODO: update the registration template layout to look better
+TODO: add checks for the amount of stock a product has each time a user adds a product to their cart
+"""
+
 # TODO: create the login functionality
 # TODO: save the user id to the session when the user logs in
 def register(request):
@@ -55,17 +64,20 @@ def cart(request):
             user = User.objects.get(id=request.session['user_id'])
             cart = Cart.objects.get(user__id=user.id)
             cart_products = CartProducts.objects.filter(cart=cart)
+            total = 0
+            for product in cart_products:
+                total += product.product.price * product.amount
             context = {
                 'user': user,
-                'cart_products': cart_products
+                'cart_products': cart_products,
+                'total': total
             }
             return render(request, 'user/cart.html', context)
         else:
             return render(request, 'user/cart.html')
 
 def add_to_cart(request, product_id, quantity):
-    """ Add to Cart """
-    # TODO: add functionality for a non registered or logged in user to add produdcts to their cart
+
     if request.method == "GET":
         if 'user_id' in request.session:
             user = User.objects.get(id=request.session['user_id'])
@@ -83,6 +95,10 @@ def add_to_cart(request, product_id, quantity):
             }
             return redirect('/cart')
             # return render(request, 'user/cart.html', context)
+
+def delete_from_cart(request, id):
+    CartProducts.objects.get(product__id=id).delete()
+    return redirect('/cart')
 
 def logout(request):
     if request.method == "GET":

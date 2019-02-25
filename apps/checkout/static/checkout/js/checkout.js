@@ -27,6 +27,6 @@ $.ajaxSetup({
     }
 });
 
-// $('#billing-form').submit(function(e) {
-//     $.ajax()
-// })
+$('#billing-next').click(function() {
+    $('shipping-information').tab('show')
+})

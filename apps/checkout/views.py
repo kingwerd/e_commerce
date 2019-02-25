@@ -5,18 +5,24 @@ from django.contrib import messages
 from .models import BillingInformation, ShippingInformation, PaymentInformation, Order
 from ..user.models import User, Cart, Address, CartProducts
 
+"""
+TODO: test the checkout system for any bugs that may occur
+TODO: determine where the creation of an order should take place
+TODO: when the user completes an order delete all the items in their cart
+TODO: add functionality for a non logged in user to make orders and add items to their cart
+TODO: when the user makes an order subtract the quantity purchased for each product
+"""
+
 def checkout(request):
     if request.method == "GET":
         if 'user_id' in request.session:
             user = User.objects.get(id=request.session['user_id'])
-            print(user.first_name)
             cart = Cart.objects.get(user=user)
             cart_products = CartProducts.objects.filter(cart=cart)
             total = 0
             for product in cart_products:
-                total += product.product.price
+                total += product.product.price * product.amount
             if Order.objects.filter(cart=cart).exists():
-                print('deleteing order')
                 Order.objects.get(cart=cart).delete()
             order = Order.objects.create(total=total, cart=cart, user=user)
             request.session['order_id'] = order.id
@@ -81,4 +87,4 @@ def payment_information(request):
                     messages.error(request, value)
                     return redirect('/checkout')
             else:
-                pay_info = PaymentInformation.objects.create()
+                pay_info = PaymentInformation.objects.create(payment_method=data['payment_method'])

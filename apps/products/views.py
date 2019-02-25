@@ -5,8 +5,13 @@ from django.contrib import messages
 from .models import Category, Product, ProductImages
 from ..user.models import User, Review
 
-# TODO: create a helper function to resize the images based on the template that they are currently in
-# TODO: user the PIL module to help with this
+"""
+TODO: add the links to the single product page
+TODO: add 'add to cart' and 'checkout' buttons to the cart
+TODO: create a popup notification when the user adds a product to their account
+TODO: create a bootstrap badge for the cart button that shows how many products that are in a users cart
+TODO: update the navbar for the single product page with the correct links
+"""
 
 def show_all_products(request):
     """ Details Hover """
@@ -97,7 +102,7 @@ FILTERS
     Categories
     TODO: update the category filter so that it has the new model representation
     Ratings
-    # TODO: create the ratings filter that acts just like the rating buttons in the leave a review tab
+    TODO: create the ratings filter that acts just like the rating buttons in the leave a review tab
 ##################################################################################################################
 """
 def filter_price(request):

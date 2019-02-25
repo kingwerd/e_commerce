@@ -57,6 +57,9 @@ class User(models.Model):
     phone_number = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # 1 = normal user
+    # 2 = admin
+    status = models.IntegerField(default=1)
     objects = UserManager()
 
 class AddressManager(models.Manager):

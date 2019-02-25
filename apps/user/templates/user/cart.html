@@ -21,19 +21,19 @@
         <input type="text" name="item_search" id="item_search" class="ml-1 form-control form-control-dark" placeholder="Search...">
         <ul class="navbar-nav px-3">
             <li class="nav-item">
-                <a href="" class="nav-link">History</a>
+                <a href="http://localhost:8000" class="nav-link">History</a>
             </li>
             <li class="nav-item">
-                <a href="" class="nav-link">Account</a>
+                <a href="http://localhost:8000" class="nav-link">Account</a>
             </li>
             <li class="nav-item">
-                <a href="" class="nav-link">Orders</a>
+                <a href="http://localhost:8000" class="nav-link">Orders</a>
             </li>
             <li class="nav-item">
-                <a href="" class="nav-link mr-5">Cart</a>
+                <a href="" class="nav-link mr-5 active">Cart</a>
             </li>
             <li class="nav-item text-nowrap">
-                <a href="" class="nav-link">Logout</a>
+                <a href="http://localhost:8000/logout" class="nav-link">Logout</a>
             </li>
         </ul>
     </nav>
@@ -50,31 +50,31 @@
                         <tr>
                             <th scope="col">Image</th>
                             <th scope="col" nowrap>Product Name</th>
-                            <th scope="col">Description</th>
+                            <th scope="col">Quantity</th>
                             <th scope="col">Price</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     {% for product in cart_products %}
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        {% if product.product.images.all %}
-                                            <img src="{{ product.product.images.all.0.image.url }}" alt="" class="img-responsive table-image">
-                                        {% else %}
-                                            <img src="https://via.placeholder.com/150" alt="" class="img-responsive table-image">
-                                        {% endif %}
-                                    </td>
-                                    <td class="align-middle">
-                                        <a href="http://localhost:8000/products/{{ product.product.id }}">{{ product.product.name }}</a>
-                                    </td>
-                                    <td class="align-middle">{{ product.product.short_description }}</td>
-                                    <td class="align-middle">${{ product.product.price }}</td>
-                                    <td class="align-middle">
-                                        <a href="http://localhost:8000/cart/delete/{{ product.product.id }}" class="delete-link"><i class="far fa-trash-alt"></i></a>
-                                    </td>
-                                </tr>
-                            </tbody>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    {% if product.product.images.all %}
+                                        <img src="{{ product.product.images.all.0.image.url }}" alt="" class="img-responsive table-image">
+                                    {% else %}
+                                        <img src="https://via.placeholder.com/150" alt="" class="img-responsive table-image">
+                                    {% endif %}
+                                </td>
+                                <td class="align-middle">
+                                    <a href="http://localhost:8000/products/{{ product.product.id }}">{{ product.product.name }}</a>
+                                </td>
+                                <td class="align-middle">{{ product.amount }}</td>
+                                <td class="align-middle">${{ product.product.price }}</td>
+                                <td class="align-middle">
+                                    <a href="http://localhost:8000/cart/delete/{{ product.product.id }}" class="delete-link"><i class="far fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
                     {% endfor %}
                 </table>
 
@@ -88,19 +88,15 @@
                             <tbody>
                                 <tr>
                                     <td>Grand Total: </td>
-                                    <td>$100</td>
+                                    <td>${{ total }}</td>
                                 </tr>
                                 <tr>
                                     <td>Shippping Charge:</td>
-                                    <td>$25</td>
-                                </tr>
-                                <tr>
-                                    <td>Estimated Tax:</td>
-                                    <td>$19.22</td>
+                                    <td>$5</td>
                                 </tr>
                                 <tr>
                                     <td>Total:</td>
-                                    <td>$1458.3</td>
+                                    <td>${{ total|add:"5" }}</td>
                                 </tr>
                             </tbody>
                         </table>

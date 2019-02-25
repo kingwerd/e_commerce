@@ -49,3 +49,8 @@ body {
 .btn:not(:disabled):not(.disabled) {
     cursor: pointer;
 }
+
+#content {
+    height: 70vh;
+    overflow-y: auto;
+}
