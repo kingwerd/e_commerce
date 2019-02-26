@@ -2,9 +2,24 @@
     list-style-type: none;
     padding: 0;
 }
+.rating-stars-all ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.rating-stars-all ul > li.star {
+    display: inline-block;
+}
 
 .rating-stars ul > li.star {
     display: inline-block;
+}
+/* Idle state of the stars */
+.rating-stars-all ul > li.star > i.fa {
+    /* Change the size of the stars */
+    font-size: 1.5em;
+    /* Color on idle state */
+    color: #ccc;
 }
 /* Idle state of the stars */
 .rating-stars ul > li.star > i.fa {
@@ -14,8 +29,15 @@
     color: #ccc;
 }
 /* Hover state of the stars */
+.rating-stars-all ul > li.star.hover > i.fa {
+    color: #FFCC36;
+}
 .rating-stars ul > li.star.hover > i.fa {
     color: #FFCC36;
+}
+/* Selected state of the stars */
+.rating-stars-all ul > li.star.selected > i.fa {
+    color: #FF912C;
 }
 /* Selected state of the stars */
 .rating-stars ul > li.star.selected > i.fa {

@@ -3,8 +3,11 @@ from django.http import JsonResponse, HttpResponse
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from .models import Category, Product, ProductImages
-from ..user.models import User, Review
-
+from ..user.models import User, Review, Address, Cart, CartProducts
+from ..checkout.models import BillingInformation, ShippingInformation, PaymentInformation, Order
+import bcrypt
+import math
+import random
 """
 TODO: add the links to the single product page
 TODO: add 'add to cart' and 'checkout' buttons to the cart
@@ -12,8 +15,49 @@ TODO: create a popup notification when the user adds a product to their account
 TODO: create a bootstrap badge for the cart button that shows how many products that are in a users cart
 TODO: update the navbar for the single product page with the correct links
 """
-
+#1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,  30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50
+# user id's range: 7 - 208
 def show_all_products(request):
+    # for product in Product.objects.all():
+    #     product.average_rating = Product.objects.average_product_rating(product.id)
+    #     product.save()
+    # for rev in Review.objects.all():
+    #     rev.rating = random.randint(1,5)
+    #     rev.save()
+    # for user in User.objects.all():
+    #     cart = Cart.objects.get(user__id=user.id)
+    #     rand_loop_var = random.randint(1,7)
+    #     rand_prod_ids = []
+    #     for i in range(rand_loop_var):
+    #         ran_prod_id = random.randint(1,50)
+    #         rand_prod_ids.append(ran_prod_id)
+    #         idx = 0
+    #         while (ran_prod_id == rand_prod_ids[idx]):
+    #             ran_prod_id = random.randint(1,50)
+    #             idx += 1
+    #             if idx == len(rand_prod_ids):
+    #                 break
+    #     for p_id in rand_prod_ids:
+    #         product = Product.objects.get(id=p_id)
+    #         rand_amt = random.randint(1,8)
+    #         CartProducts.objects.create(amount=rand_amt, product=product, cart=cart)
+    #     total = 0
+    #     cart_products = CartProducts.objects.filter(cart__id=cart.id)
+    #     for product in cart_products:
+    #         total += product.product.price * product.amount
+    #     address = Address.objects.filter(user__id=user.id)[0]
+    #     bill_info = BillingInformation.objects.create(first_name=user.first_name, last_name=user.last_name, email=user.email, phone=user.phone_number, address=address)
+    #     bill_info.save()
+    #     ship_info = ShippingInformation.objects.create(first_name=user.first_name, last_name=user.last_name, email=user.email, phone=user.phone_number, shipment_method=1, address=address)
+    #     ship_info.save()
+    #     pay_info = PaymentInformation.objects.create(payment_method=2)
+    #     pay_info.save()
+    #     order = Order.objects.create(total=total, cart=cart, user=user, billing_info=bill_info, shipping_info=ship_info, payment_info=pay_info)
+    #     order.save()
+    #     for p in cart_products:
+    #         p.delete()
+
+    
     """ Details Hover """
     # TODO: when the user hovers over the image of a product, an overlay with information appears about the product
     """ Product Slider """
@@ -25,7 +69,11 @@ def show_all_products(request):
         data = {}
         max_price = 0
         categories = Category.objects.all()
-
+        status = False
+        if 'user_id' in request.session:
+            user = User.objects.get(id=request.session['user_id'])
+            if user.status == 2:
+                status = True
         for category in categories:
             length = len(category.products.all())
             data[f'{category.name}'] = []
@@ -44,7 +92,8 @@ def show_all_products(request):
         context = {
             'categories': categories,
             'max_price': max_price,
-            'data': data
+            'data': data,
+            'status': status
         }
         return render(request, 'products/show_products.html', context)
 
@@ -89,19 +138,18 @@ def product_search(request):
             names.append(obj.name)
         return JsonResponse(names, safe=False)
 
-
 """
 ##################################################################################################################
 FILTERS
-    Overall
+    ## Overall ##
     TODO: have different layouts for each type of filter
     TODO: implement functionality to allow users to have multiple ratings at the same time
     TODO: have all rating be executed with an ajax request that injects the partial html in the document
-    Products Partial
+    ## Products Partial ##
     TODO: come up with a new layout for the partial when the user filters the products
-    Categories
+    ## Categories ##
     TODO: update the category filter so that it has the new model representation
-    Ratings
+    ## Ratings ##
     TODO: create the ratings filter that acts just like the rating buttons in the leave a review tab
 ##################################################################################################################
 """
@@ -128,6 +176,16 @@ def filter_categories(request):
                 category = Category.objects.filter(id=int(data['category_filter']))
         context = {
             'categories': category
+        }
+        return render(request, 'products/_products.html', context)
+
+def filter_rating(request):
+    if request.method == "GET":
+        data = request.GET
+        products = Product.objects.filter(average_rating__gte=float(data['rating']))
+        context = {
+            'rating': data['rating'],
+            'products': products
         }
         return render(request, 'products/_products.html', context)
 
@@ -161,7 +219,7 @@ def review_product(request, id):
             data = request.POST
             errors = Review.objects.review_validator(data)
             if len(errors) > 0:
-                for key, val in errors.items():
+                for key, value in errors.items():
                     messages.error(request, value)
                 return redirect(f'/products/{id}')
             else:

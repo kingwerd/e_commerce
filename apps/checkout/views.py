@@ -22,10 +22,6 @@ def checkout(request):
             total = 0
             for product in cart_products:
                 total += product.product.price * product.amount
-            if Order.objects.filter(cart=cart).exists():
-                Order.objects.get(cart=cart).delete()
-            order = Order.objects.create(total=total, cart=cart, user=user)
-            request.session['order_id'] = order.id
             request.session['cart_id'] = cart.id
             context = {
                 'user': user,

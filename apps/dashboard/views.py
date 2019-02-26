@@ -15,12 +15,57 @@ TODO: add a page to see a single review and be able to edit the review
 """
 
 def dashboard(request):
-    categories = Category.objects.all()
-    context = {
-        'categories': categories
-    }
-    return render(request, 'dashboard/dashboard.html', context)
-    # if not 'user_id' in request.session:
-    #     return redirect('/')
-    # else:        
-    #     pass
+    if 'user_id' in request.session:
+        user = User.objects.get(id=request.session['user_id'])
+        if user.status == 2:
+            categories = Category.objects.all()
+            context = {
+                'categories': categories
+            }
+            return render(request, 'dashboard/dashboard.html', context)
+        else:
+            return redirect('/')
+    else:
+        return redirect('/')
+
+def users(request):
+    if 'user_id' in request.session:
+        user = User.objects.get(id=request.session['user_id'])
+        if user.status == 2:
+            users = User.objects.all()
+            context = {
+                'users': users
+            }
+            return render(request, 'dashboard/users.html', context)
+        else:
+            return redirect('/')
+    else:
+        return redirect('/')
+
+def products(request):
+    if 'user_id' in request.session:
+        user = User.objects.get(id=request.session['user_id'])
+        if user.status == 2:
+            categories = Category.objects.all()
+            context = {
+                'categories': categories
+            }
+            return render(request, 'dashboard/dashboard.html', context)
+        else:
+            return redirect('/')
+    else:
+        return redirect('/')
+
+def orders(request):
+    if 'user_id' in request.session:
+        user = User.objects.get(id=request.session['user_id'])
+        if user.status == 2:
+            orders = Order.objects.all()
+            context = {
+                'orders': orders
+            }
+            return render(request, 'dashboard/orders.html', context)
+        else:
+            return redirect('/')
+    else:
+        return redirect('/')

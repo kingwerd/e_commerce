@@ -83,12 +83,13 @@ def add_to_cart(request, product_id, quantity):
             user = User.objects.get(id=request.session['user_id'])
             product = Product.objects.get(id=product_id)
             cart = Cart.objects.get(user__id=user.id)
-            CartProducts.objects.create(amount=quantity, product=product, cart=cart)
-            cart_products = CartProducts.objects.filter(cart__id = cart.id)
-            print('*'*80)
-            print(cart_products)
-            for product in cart_products:
-                print(product.product.images.all())
+            if CartProducts.objects.filter(product__id=product.id).exists():
+                cart_p = CartProducts.objects.get(product__id=product_id)
+                cart_p.amount += quantity
+                cart_p.save()
+            else:
+                CartProducts.objects.create(amount=quantity, product=product, cart=cart)
+            cart_products = CartProducts.objects.filter(cart__id=cart.id)
             context = {
                 'user': user,
                 'cart_products': cart_products

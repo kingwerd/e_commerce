@@ -74,24 +74,88 @@
             <div class="col-6">
                 <h4>{{ product.name }}</h4>
                 <div class="d-flex flex-row flex-nowarp align-items-center">
-                    <span class="rating-score">
-                        <p class="mr-2">{{ rating }}</p>
-                    </span>
-                    <span class="star-wrapper">
-                        <i class="fa fa-star checked"></i>
-                    </span>
-                    <span class="star-wrapper">
-                        <i class="fa fa-star checked"></i>
-                    </span>
-                    <span class="star-wrapper">
-                        <i class="fa fa-star checked"></i>
-                    </span>
-                    <span class="star-wrapper">
-                        <i class="fa fa-star checked"></i>
-                    </span>
-                    <span class="star-wrapper">
-                        <i class="far fa-star"></i>
-                    </span>
+                    <span class="rating-score">{{ rating }}</span>
+                    {% if rating == 1 %}
+                        <span class="star-wrapper">
+                            <i class="fa fa-star checked"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star"></i>
+                        </span>
+                    {% elif rating == 2 %}
+                        <span class="star-wrapper">
+                            <i class="fa fa-star checked"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star checked"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star"></i>
+                        </span>
+                    {% elif rating == 3 %}
+                        <span class="star-wrapper">
+                            <i class="fa fa-star checked"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star checked"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star checked"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star"></i>
+                        </span>
+                    {% elif rating == 4 %}
+                        <span class="star-wrapper">
+                            <i class="fa fa-star checked"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star checked"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star checked"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star checked"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star"></i>
+                        </span>
+                    {% elif rating == 5 %}
+                        <span class="star-wrapper">
+                            <i class="fa fa-star checked"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star checked"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star checked"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star checked"></i>
+                        </span>
+                        <span class="star-wrapper">
+                            <i class="fa fa-star checked"></i>
+                        </span>
+                    {% endif %}
                 </div>
                 <p class="price">Price: ${{ product.price }}</p>
                 <h6>Description</h6>
